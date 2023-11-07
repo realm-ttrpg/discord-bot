@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rpgbot"
+requires-python = ">=3.11"
+version = "1.0.0"
+
+[project.optional-dependencies]
+dev = ["aethersprite@git+https://github.com/haliphax/aethersprite.git"]
+
+[tool.setuptools]
+packages = ["rpgbot"]
