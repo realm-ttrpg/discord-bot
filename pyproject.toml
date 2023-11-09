@@ -6,12 +6,17 @@ build-backend = "setuptools.build_meta"
 name = "rpgbot"
 requires-python = ">=3.11"
 version = "1.0.0"
-
-[project.optional-dependencies]
-dev = ["aethersprite@git+https://github.com/haliphax/aethersprite.git"]
+dynamic = ["dependencies", "optional-dependencies"]
 
 [tool.setuptools]
 packages = ["rpgbot"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = "requirements/requirements.txt" }
+
+[tool.setuptools.dynamic.optional-dependencies]
+dev = { file = "requirements/dev.txt" }
+docs = { file = "requirements/docs.txt" }
 
 [tool.black]
 line-length = 80
