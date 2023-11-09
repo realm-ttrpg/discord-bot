@@ -15,7 +15,9 @@ from aethersprite import log
 from aethersprite.authz import channel_only
 from aethersprite.emotes import THUMBS_DOWN
 
-roll_regex = compile(r"^(?P<all>(?P<num>\d*)d(?P<die>\d+)(?P<fun>!\d*|k[hl]\d*)?)")
+roll_regex = compile(
+    r"^(?P<all>(?P<num>\d*)d(?P<die>\d+)(?P<fun>!\d*|k[hl]\d*)?)"
+)
 """Regex pattern for initial roll"""
 
 addl_roll_regex = compile(
@@ -145,7 +147,9 @@ def roll_segment(segment: RollSegment) -> SegmentResult:
 
             # exploding die
             while (
-                exploding and roll == segment.faces and (limit == 0 or exploded < limit)
+                exploding
+                and roll == segment.faces
+                and (limit == 0 or exploded < limit)
             ):
                 exploded += 1
                 result.rolls.append(roll)
@@ -218,7 +222,7 @@ async def roll(ctx: Context, *, dice: str):
     try:
         segments = parse_segments(dice)
         results = [roll_segment(s) for s in segments]
-    except:
+    except Exception:
         log.exception("Error parsing dice roll")
         await ctx.message.add_reaction(THUMBS_DOWN)
         return
