@@ -30,8 +30,8 @@ def segment_icon(segment: RollSegment):
 
 
 @check(channel_only)
-@command()
-async def roll(ctx: Context, *, dice: str):
+@command(name="roll")
+async def roll_(ctx: Context, *, dice: str):
     """
     Roll them bones.
 
@@ -88,4 +88,4 @@ async def roll(ctx: Context, *, dice: str):
 
 async def setup(bot: Bot):
     seed()
-    bot.add_command(roll)
+    bot.add_command(roll_)
