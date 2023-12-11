@@ -3,6 +3,8 @@
 .env
 .ruff_cache/
 .vscode/
+/build/
 /config.toml
 /data/
+/html/
 node_modules/
