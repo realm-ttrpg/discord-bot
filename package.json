@@ -30,6 +30,7 @@
 	},
 	"scripts": {
 		"build": "npm ci && npm run build:local",
-		"build:local": "vite build rpgbot/web --emptyOutDir --outDir ../../html"
+		"build:local": "vite build rpgbot/web",
+		"dev": "vite rpgbot/web"
 	}
 }
