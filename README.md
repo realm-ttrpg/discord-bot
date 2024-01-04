@@ -3,6 +3,8 @@
 An extension pack for the [Aethersprite][] [Discord][] bot to facilitate the
 play and administration of [tabletop roleplaying games][]
 
+![realm](https://raw.githubusercontent.com/realm-ttrpg/discord-bot/assets/realm.jpg)
+
 ## Installing
 
 First, make a `config.toml` file from the provided `config.example.toml` file,
