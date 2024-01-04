@@ -4,29 +4,18 @@
 from random import seed
 
 # 3rd party
-from discord.colour import Color
-from discord.embeds import Embed
 from discord.ext.commands import Bot, check, command, Context
 
 # api
 from aethersprite import log
 from aethersprite.authz import channel_only
 from aethersprite.emotes import THUMBS_DOWN
+from aethersprite.settings import register, settings
 
 # local
-from .dataclasses import ConstantModifier, DiceRoll, RollSegment
+from .response import compact, verbose
 from .parse import parse_segments
 from .roll import roll_segment
-
-
-def segment_icon(segment: RollSegment):
-    """Get emote icon for displaying segment result in an Embed."""
-
-    if isinstance(segment, DiceRoll):
-        return ":game_die:"
-
-    if isinstance(segment, ConstantModifier):
-        return ":1234:"
 
 
 @check(channel_only)
@@ -60,32 +49,29 @@ async def roll_(ctx: Context, *, dice: str):
         await ctx.message.add_reaction(THUMBS_DOWN)
         return
 
-    embed = Embed(
-        title=f"Roll: `{dice}`",
-        color=Color.purple(),
-    )
-    embed.set_author(
-        name=ctx.author.name,
-        icon_url=ctx.author.avatar.url if ctx.author.avatar else None,
-    )
+    is_compact = settings["realm.roll.compact"].get(ctx)
 
-    for result in results:
-        embed.add_field(
-            name=f"{segment_icon(result.segment)} {result.segment.raw}",
-            value=result.work if isinstance(result.segment, DiceRoll) else "",
-        )
+    if is_compact:
+        await ctx.send(compact(ctx, dice, results))
+    else:
+        await ctx.send(embed=verbose(ctx, dice, results))
 
-    totals = [s.total for s in results]
-    grand_total = sum(totals)
-    embed.add_field(
-        name=":checkered_flag: Total",
-        value=f"{totals} = **{grand_total}**",
-        inline=False,
-    )
-    await ctx.send(embed=embed)
     await ctx.message.delete()
 
 
 async def setup(bot: Bot):
+    register(
+        "realm.roll.compact",
+        False,
+        lambda _: True,
+        False,
+        "Whether to use compact display for roll results.",
+    )
     seed()
     bot.add_command(roll_)
+
+
+async def teardown(bot: Bot):
+    global settings
+
+    del settings["realm.roll.compact"]
