@@ -18,12 +18,16 @@ from .response import compact, verbose
 from .parse import parse_segments
 from .roll import roll_segment
 
-compact_filter = BooleanFilter("realm.roll.compact")
+ROLL_COMPACT_SETTING = "realm.roll.compact"
+"""Setting name for compact roll results toggle"""
+
+compact_filter = BooleanFilter(ROLL_COMPACT_SETTING)
+"""Boolean setting filter for compact roll results toggle"""
 
 
 @check(channel_only)
 @command(name="roll")
-async def roll_(ctx: Context, *, dice: str):
+async def roll_command(ctx: Context, *, dice: str):
     """
     Roll them bones.
 
@@ -52,7 +56,7 @@ async def roll_(ctx: Context, *, dice: str):
         await ctx.message.add_reaction(THUMBS_DOWN)
         return
 
-    is_compact = settings["realm.roll.compact"].get(ctx)
+    is_compact = settings[ROLL_COMPACT_SETTING].get(ctx)
 
     if is_compact:
         await ctx.send(compact(ctx, dice, results))
@@ -64,7 +68,7 @@ async def roll_(ctx: Context, *, dice: str):
 
 async def setup(bot: Bot):
     register(
-        "realm.roll.compact",
+        ROLL_COMPACT_SETTING,
         False,
         lambda _: True,
         False,
@@ -72,10 +76,10 @@ async def setup(bot: Bot):
         filter=compact_filter,
     )
     seed()
-    bot.add_command(roll_)
+    bot.add_command(roll_command)
 
 
 async def teardown(bot: Bot):
     global settings
 
-    del settings["realm.roll.compact"]
+    del settings[ROLL_COMPACT_SETTING]
