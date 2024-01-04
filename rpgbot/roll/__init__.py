@@ -10,12 +10,15 @@ from discord.ext.commands import Bot, check, command, Context
 from aethersprite import log
 from aethersprite.authz import channel_only
 from aethersprite.emotes import THUMBS_DOWN
+from aethersprite.filters import BooleanFilter
 from aethersprite.settings import register, settings
 
 # local
 from .response import compact, verbose
 from .parse import parse_segments
 from .roll import roll_segment
+
+compact_filter = BooleanFilter("realm.roll.compact")
 
 
 @check(channel_only)
@@ -66,6 +69,7 @@ async def setup(bot: Bot):
         lambda _: True,
         False,
         "Whether to use compact display for roll results.",
+        filter=compact_filter,
     )
     seed()
     bot.add_command(roll_)
