@@ -38,7 +38,7 @@ def compact(ctx: Context, dice: str, results: list[SegmentResult]) -> str:
         (
             f"{ctx.author.mention} ",
             f"`{dice}` :game_die: *{rolls}* ",
-            f":checkered_flag: *{totals}* ",
+            f":checkered_flag: {totals} ",
             f"= **{sum(totals)}**",
         )
     )
