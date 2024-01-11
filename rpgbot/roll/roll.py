@@ -80,9 +80,13 @@ def roll_segment(segment: RollSegment) -> SegmentResult:
                 for i in drop:
                     result.total -= ord_rolls[-(i + 1)]
 
+        rolls = [
+            f"**{roll}**" if roll == segment.faces else f"{roll}"
+            for roll in result.rolls
+        ]
         result.work = "".join(
             [
-                f"{result.rolls} = ",
+                f"[{', '.join(rolls)}] = ",
                 f"**{'-' if segment.negative else ''}{result.total}**",
             ]
         )
