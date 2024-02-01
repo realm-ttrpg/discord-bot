@@ -27,12 +27,6 @@ To start the Discord bot:
 python -m aethersprite
 ```
 
-To start the web application:
-
-```shell
-python -m aethersprite.webapp
-```
-
 [aethersprite]: https://github.com/haliphax/aethersprite
 [discord]: https://discord.com
 [tabletop roleplaying games]: https://en.wikipedia.org/wiki/Tabletop_role-playing_game
