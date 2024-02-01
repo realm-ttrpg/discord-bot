@@ -11,8 +11,8 @@ roll_regex = compile(
     r"(?P<num>\d*)"
     r"d(?P<die>\d+)"
     r"(?P<fun>!\d*|k[hl]\d*)?"
-    r"(x(?P<batch>\d+))?"
     r")"
+    r"(x(?P<batch>\d+))?"
 )
 """Regex pattern for initial roll"""
 
@@ -21,8 +21,8 @@ addl_roll_regex = compile(
     r"(?P<op>[-+])"
     r"(?P<num>\d*)"
     r"(d(?P<die>\d+)(?P<fun>!\d*|k[hl]\d*)?)?"
-    r"(x(?P<batch>\d+))?"
     r")"
+    r"(x(?P<batch>\d+))?"
 )
 """Regex pattern for additional modifier rolls/constants"""
 
@@ -36,48 +36,48 @@ def parse_segments(roll: str) -> list[list[RollSegment]]:
     roll = roll.replace(" ", "")
 
     # parse first roll
-    match = roll_regex.match(roll)
-    assert match
+    first = roll_regex.match(roll)
+    assert first
+    first = first.groupdict()
 
     # parse variable number of mods
-    rest = [r.groupdict() for r in addl_roll_regex.finditer(roll)]
+    mods = [r.groupdict() for r in addl_roll_regex.finditer(roll)]
 
-    batch = int(match["batch"] or 1)
-    match = match.groupdict()
+    batch = int(first["batch"] or 1)
 
-    for r in rest:
-        if r["batch"]:
-            batch = int(r["batch"])
+    for m in mods:
+        if m["batch"]:
+            batch = int(m["batch"])
 
     batches: list[list[RollSegment]] = []
 
     for _ in range(batch):
         segments: list[RollSegment] = [
             DiceRoll(
-                raw=match["all"],
-                dice=int(match["num"] or "1"),
-                faces=int(match["die"]),
-                extra=match["fun"],
+                raw=first["all"],
+                dice=int(first["num"] or "1"),
+                faces=int(first["die"]),
+                extra=first["fun"],
             )
         ]
 
-        for match in rest:
-            if match["die"]:
+        for mod in mods:
+            if mod["die"]:
                 segments.append(
                     DiceRoll(
-                        raw=match["all"],
-                        negative=match["op"] == "-",
-                        dice=int(match["num"] or "1"),
-                        faces=int(match["die"]),
-                        extra=match["fun"],
+                        raw=mod["all"],
+                        negative=mod["op"] == "-",
+                        dice=int(mod["num"] or "1"),
+                        faces=int(mod["die"]),
+                        extra=mod["fun"],
                     )
                 )
             else:
                 segments.append(
                     ConstantModifier(
-                        raw=match["all"],
-                        negative=match["op"] == "-",
-                        number=int(match["num"]),
+                        raw=mod["all"],
+                        negative=mod["op"] == "-",
+                        number=int(mod["num"]),
                     )
                 )
 
