@@ -6,7 +6,7 @@
 #
 aethersprite @ git+https://github.com/haliphax/aethersprite.git
     # via -r requirements.in
-aiohttp==3.9.0
+aiohttp==3.9.2
     # via
     #   aethersprite
     #   discord-py
