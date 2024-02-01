@@ -28,3 +28,7 @@ class SegmentResult:
     rolls: list[int] | None = None
     work: str | None = None
     total: int = 0
+
+
+class BatchRoll(list[DiceRoll]):
+    pass

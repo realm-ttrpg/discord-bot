@@ -46,22 +46,27 @@ async def roll_command(ctx: Context, *, dice: str):
 
         # 4d6, explode up to 3x, minus 1d4
         !roll 4d6!3-1d4
+
+        # 4 batches of 2d6+1d4
+        !roll 2d6+1d4x4
     """
 
+    is_compact = settings[ROLL_COMPACT_SETTING].get(ctx)
+
     try:
-        segments = parse_segments(dice)
-        results = [roll_segment(s) for s in segments]
+        batches = parse_segments(dice)
+
+        for segments in batches:
+            results = [roll_segment(s) for s in segments]
+
+            if is_compact:
+                await ctx.send(compact(ctx, dice, results))
+            else:
+                await ctx.send(embed=verbose(ctx, dice, results))
     except Exception:
         log.exception("Error parsing dice roll")
         await ctx.message.add_reaction(THUMBS_DOWN)
         return
-
-    is_compact = settings[ROLL_COMPACT_SETTING].get(ctx)
-
-    if is_compact:
-        await ctx.send(compact(ctx, dice, results))
-    else:
-        await ctx.send(embed=verbose(ctx, dice, results))
 
     await ctx.message.delete()
 
