@@ -5,7 +5,3 @@ extensions = ["aethersprite.extensions.base._all", "rpgbot._all"]
 owner = "haliphax#4859"
 prefix = "!"
 token = "SOMEREALLYLONGSTRINGTHATDISCORDGIVESYOU"
-
-[webapp]
-host = "0.0.0.0"
-port = 5000
