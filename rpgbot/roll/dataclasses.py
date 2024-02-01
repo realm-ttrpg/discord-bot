@@ -30,5 +30,5 @@ class SegmentResult:
     total: int = 0
 
 
-class BatchRoll(list[DiceRoll]):
+class BatchRoll(list[list[RollSegment]]):
     pass

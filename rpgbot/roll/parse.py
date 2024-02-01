@@ -4,7 +4,7 @@
 from re import compile
 
 # local
-from .dataclasses import ConstantModifier, DiceRoll, RollSegment
+from .dataclasses import BatchRoll, ConstantModifier, DiceRoll, RollSegment
 
 roll_regex = compile(
     r"^(?P<all>"
@@ -49,7 +49,7 @@ def parse_segments(roll: str) -> list[list[RollSegment]]:
         if m["batch"]:
             batch = int(m["batch"])
 
-    batches: list[list[RollSegment]] = []
+    batches = BatchRoll()
 
     for _ in range(batch):
         segments: list[RollSegment] = [
