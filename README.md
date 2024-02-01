@@ -1,7 +1,8 @@
 # Realm TTRPG bot for Discord
 
-An extension pack for the [Aethersprite][] [Discord][] bot to facilitate the
-play and administration of [tabletop roleplaying games][]
+A [Discord][] bot for use with the associated [API server][] and
+[web interface][] to facilitate the play and administration of
+[tabletop roleplaying games][]
 
 ![realm](https://raw.githubusercontent.com/realm-ttrpg/discord-bot/assets/realm.jpg)
 
@@ -14,19 +15,18 @@ apply.
 Then, install the bot package in your Python environment of choice:
 
 ```shell
-pip install -U 'rpgbot@git+https://github.com/realm-ttrpg/discord-bot.git'
+pip install -U 'realm_bot@git+https://github.com/realm-ttrpg/discord-bot.git'
 ```
 
 ## Running
 
-Commands must be run in the same directory as your `config.toml` file.
-
-To start the Discord bot:
+In the same directory as your `config.toml` file:
 
 ```shell
 python -m aethersprite
 ```
 
-[aethersprite]: https://github.com/haliphax/aethersprite
+[api server]: https://github.com/realm-ttrpg/api-server
 [discord]: https://discord.com
 [tabletop roleplaying games]: https://en.wikipedia.org/wiki/Tabletop_role-playing_game
+[web interface]: https://github.com/realm-ttrpg/web-interface

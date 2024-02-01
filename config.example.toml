@@ -1,7 +1,7 @@
 [bot]
 data_folder = "data"
 help_command = "help"
-extensions = ["aethersprite.extensions.base._all", "rpgbot._all"]
+extensions = ["aethersprite.extensions.base._all", "realm_bot._all"]
 owner = "haliphax#4859"
 prefix = "!"
 token = "SOMEREALLYLONGSTRINGTHATDISCORDGIVESYOU"

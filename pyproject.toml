@@ -3,13 +3,13 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rpgbot"
+name = "realm_bot"
 requires-python = ">=3.11"
 version = "0.1.0"
 dynamic = ["dependencies", "optional-dependencies"]
 
 [tool.setuptools]
-packages = ["rpgbot"]
+packages = ["realm_bot"]
 
 [tool.setuptools.dynamic]
 dependencies = { file = "requirements/requirements.txt" }
