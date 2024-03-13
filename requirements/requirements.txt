@@ -6,7 +6,7 @@
 #
 aethersprite @ git+https://github.com/haliphax/aethersprite.git
     # via -r requirements.in
-aiohttp==3.9.2
+aiohttp==3.9.3
     # via
     #   aethersprite
     #   discord-py
@@ -18,13 +18,12 @@ annotated-types==0.6.0
     # via
     #   aethersprite
     #   pydantic
-anyio==3.7.1
+anyio==4.3.0
     # via
     #   aethersprite
-    #   fastapi
     #   starlette
     #   watchfiles
-attrs==23.1.0
+attrs==23.2.0
     # via
     #   aethersprite
     #   aiohttp
@@ -32,15 +31,15 @@ click==8.1.7
     # via
     #   aethersprite
     #   uvicorn
-colorlog==6.7.0
+colorlog==6.8.2
     # via aethersprite
 discord-pretty-help==2.0.7
     # via aethersprite
 discord-py==2.3.2
     # via aethersprite
-fastapi==0.104.1
+fastapi==0.109.2
     # via aethersprite
-frozenlist==1.4.0
+frozenlist==1.4.1
     # via
     #   aethersprite
     #   aiohttp
@@ -53,29 +52,29 @@ httptools==0.6.1
     # via
     #   aethersprite
     #   uvicorn
-idna==3.4
+idna==3.6
     # via
     #   aethersprite
     #   anyio
     #   yarl
-multidict==6.0.4
+multidict==6.0.5
     # via
     #   aethersprite
     #   aiohttp
     #   yarl
-pydantic==2.5.2
+pydantic==2.6.1
     # via
     #   aethersprite
     #   fastapi
-pydantic-core==2.14.5
+pydantic-core==2.16.2
     # via
     #   aethersprite
     #   pydantic
-python-dotenv==1.0.0
+python-dotenv==1.0.1
     # via
     #   aethersprite
     #   uvicorn
-pytz==2023.3.post1
+pytz==2024.1
     # via aethersprite
 pyyaml==6.0.1
     # via
@@ -87,19 +86,19 @@ sniffio==1.3.0
     #   anyio
 sqlitedict==2.1.0
     # via aethersprite
-starlette==0.27.0
+starlette==0.36.3
     # via
     #   aethersprite
     #   fastapi
 toml==0.10.2
     # via aethersprite
-typing-extensions==4.8.0
+typing-extensions==4.9.0
     # via
     #   aethersprite
     #   fastapi
     #   pydantic
     #   pydantic-core
-uvicorn[standard]==0.24.0.post1
+uvicorn[standard]==0.27.1
     # via aethersprite
 uvloop==0.19.0
     # via
@@ -113,7 +112,7 @@ websockets==12.0
     # via
     #   aethersprite
     #   uvicorn
-yarl==1.9.2
+yarl==1.9.4
     # via
     #   aethersprite
     #   aiohttp
