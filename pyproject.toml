@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "realm_bot"
-requires-python = ">=3.11"
+requires-python = ">=3.12.1"
 version = "0.1.0"
 dynamic = ["dependencies", "optional-dependencies"]
 
@@ -18,13 +18,10 @@ dependencies = { file = "requirements/requirements.txt" }
 dev = { file = "requirements/dev.txt" }
 docs = { file = "requirements/docs.txt" }
 
-[tool.black]
-line-length = 80
-
 [tool.ruff]
-ignore = [
+lint.ignore = [
 	# ambiguous variable name
 	"E741",
 ]
 line-length = 80
-target-version = "py311"
+target-version = "py312"

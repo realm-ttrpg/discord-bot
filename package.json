@@ -2,20 +2,36 @@
 	"devDependencies": {
 		"@semantic-release/changelog": "^6.0.3",
 		"@semantic-release/git": "^10.0.1",
-		"@semantic-release/github": "^9.2.1",
+		"@semantic-release/github": "^11.0.1",
+		"commitlint": "^17.7.1",
+		"commitlint-config-gitmoji": "^2.3.1",
 		"gitmoji-cli": "^8.5.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.4.3",
 		"prettier": "^3.0.3",
 		"prettier-plugin-toml": "^1.0.0",
-		"semantic-release": "^22.0.5",
-		"semantic-release-gitmoji": "^1.6.5",
+		"semantic-release": "^24.2.3",
+		"semantic-release-gitmoji": "^1.6.8",
 		"semantic-release-replace-plugin": "^1.2.7"
 	},
 	"engines": {
-		"node": "^18"
+		"node": "^22"
+	},
+	"lint-staged": {
+		"*": [
+			"prettier -luw"
+		],
+		"*.py": [
+			"ruff check --fix",
+			"ruff format"
+		]
 	},
 	"prettier": {
 		"plugins": [
 			"prettier-plugin-toml"
 		]
+	},
+	"scripts": {
+		"prepare": "husky"
 	}
 }

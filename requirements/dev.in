@@ -1,4 +1,2 @@
-black
 pip-tools
-pre-commit
 ruff
