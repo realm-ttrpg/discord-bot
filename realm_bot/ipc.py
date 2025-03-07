@@ -16,7 +16,7 @@ pubsub = redis_conn.pubsub(ignore_subscribe_messages=True)
 class _IPCHandlers:
     @staticmethod
     def guilds(data: dict):
-        guilds = [guild.id for guild in bot.guilds]
+        guilds = [str(guild.id) for guild in bot.guilds]
         redis_conn.publish(data["uuid"], json.dumps({"guilds": guilds}))
 
 
