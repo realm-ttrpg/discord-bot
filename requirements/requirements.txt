@@ -6,7 +6,11 @@
 #
 aethersprite @ git+https://github.com/haliphax/aethersprite.git
     # via -r requirements.in
-aiohttp==3.9.3
+aiohappyeyeballs==2.3.5
+    # via
+    #   aethersprite
+    #   aiohttp
+aiohttp==3.10.11
     # via
     #   aethersprite
     #   discord-py
@@ -23,6 +27,8 @@ anyio==4.3.0
     #   aethersprite
     #   starlette
     #   watchfiles
+async-timeout==5.0.1
+    # via redis
 attrs==23.2.0
     # via
     #   aethersprite
@@ -37,7 +43,7 @@ discord-pretty-help==2.0.7
     # via aethersprite
 discord-py==2.3.2
     # via aethersprite
-fastapi==0.109.2
+fastapi==0.110.0
     # via aethersprite
 frozenlist==1.4.1
     # via
@@ -48,11 +54,13 @@ h11==0.14.0
     # via
     #   aethersprite
     #   uvicorn
+hiredis==3.1.0
+    # via -r requirements.in
 httptools==0.6.1
     # via
     #   aethersprite
     #   uvicorn
-idna==3.6
+idna==3.7
     # via
     #   aethersprite
     #   anyio
@@ -62,11 +70,15 @@ multidict==6.0.5
     #   aethersprite
     #   aiohttp
     #   yarl
-pydantic==2.6.1
+propcache==0.2.0
+    # via
+    #   aethersprite
+    #   yarl
+pydantic==2.6.4
     # via
     #   aethersprite
     #   fastapi
-pydantic-core==2.16.2
+pydantic-core==2.16.3
     # via
     #   aethersprite
     #   pydantic
@@ -80,7 +92,9 @@ pyyaml==6.0.1
     # via
     #   aethersprite
     #   uvicorn
-sniffio==1.3.0
+redis==5.2.1
+    # via -r requirements.in
+sniffio==1.3.1
     # via
     #   aethersprite
     #   anyio
@@ -92,13 +106,13 @@ starlette==0.36.3
     #   fastapi
 toml==0.10.2
     # via aethersprite
-typing-extensions==4.9.0
+typing-extensions==4.10.0
     # via
     #   aethersprite
     #   fastapi
     #   pydantic
     #   pydantic-core
-uvicorn[standard]==0.27.1
+uvicorn[standard]==0.29.0
     # via aethersprite
 uvloop==0.19.0
     # via
@@ -112,7 +126,7 @@ websockets==12.0
     # via
     #   aethersprite
     #   uvicorn
-yarl==1.9.4
+yarl==1.17.2
     # via
     #   aethersprite
     #   aiohttp
