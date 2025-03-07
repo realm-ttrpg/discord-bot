@@ -1,5 +1,6 @@
 # stdlib
 import json
+import os
 
 # 3rd party
 from discord.ext.commands import Bot
@@ -9,7 +10,7 @@ import redis
 from aethersprite import log
 
 bot: Bot
-redis_conn = redis.StrictRedis()
+redis_conn = redis.StrictRedis(host=os.environ.get("REDIS_HOST", "localhost"))
 pubsub = redis_conn.pubsub(ignore_subscribe_messages=True)
 
 
