@@ -18,7 +18,7 @@ class _IPCHandlers:
     @staticmethod
     def guilds(data: dict):
         guilds = [str(guild.id) for guild in bot.guilds]
-        redis_conn.publish(data["uuid"], json.dumps({"guilds": guilds}))
+        redis_conn.publish(data["uuid"], json.dumps(guilds))
 
 
 def handler(message: dict):
