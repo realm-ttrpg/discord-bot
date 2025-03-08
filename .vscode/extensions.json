@@ -3,7 +3,6 @@
 		"charliermarsh.ruff",
 		"editorconfig.editorconfig",
 		"esbenp.prettier-vscode",
-		"ms-python.black-formatter",
 		"ms-python.python",
 		"tamasfe.even-better-toml"
 	]
