@@ -5,5 +5,5 @@
 .vscode/
 /build/
 /config.toml
-/data/
+/data/*.sqlite3
 node_modules/
