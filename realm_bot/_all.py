@@ -2,7 +2,4 @@
 
 META_EXTENSION = True
 
-_mods = (
-    "ipc",
-    "roll",
-)
+_mods = ("rpc", "roll")
