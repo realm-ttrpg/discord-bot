@@ -1,0 +1,21 @@
+name: PR lint
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, reopened, synchronize]
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.branch }}
+
+jobs:
+  commitlint:
+    name: Commit lint
+    if: ${{ contains(github.event_name, 'pull_request') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: realm-ttrpg/discord-bot/.github@main
+
+      - name: Lint pull request title
+        run: echo "${{ github.event.pull_request.title }}" | npx commitlint
