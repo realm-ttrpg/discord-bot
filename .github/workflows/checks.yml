@@ -1,0 +1,42 @@
+name: Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.branch }}
+
+jobs:
+  ruff-check:
+    name: Ruff check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: realm-ttrpg/discord-bot/.github@main
+
+      - name: Ruff check
+        run: ruff check .
+
+  ruff-format:
+    name: Ruff format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: realm-ttrpg/discord-bot/.github@main
+
+      - name: Ruff format
+        run: ruff format .
+
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: realm-ttrpg/discord-bot/.github@main
+
+      - name: Prettier
+        run: npx prettier -lu .
