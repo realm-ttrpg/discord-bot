@@ -30,7 +30,7 @@ class RPCHandlers:
     """
 
     @staticmethod
-    def guilds(*_, **__):
+    async def guilds(*_, **__):
         """Get list of guilds the bot is joined to."""
 
         return BotGuildsResponse(
@@ -43,11 +43,17 @@ def handler(message: dict):
 
     data: dict = json.loads(message["data"])
     log.info(f"RPC op: {data['op']}")
-    result: BaseModel = getattr(RPCHandlers, data["op"])(
-        *data.get("args", []),
-        **data.get("kwargs", dict()),
-    )
-    redis_conn.publish(data["uuid"], result.model_dump_json())
+
+    async def f():
+        result: BaseModel = await getattr(RPCHandlers, data["op"])(
+            *data.get("args", []),
+            **data.get("kwargs", dict()),
+        )
+        redis_conn.publish(
+            data["uuid"], result.model_dump_json() if result else ""
+        )
+
+    aio.run_coroutine_threadsafe(f(), bot.loop)
 
 
 async def rpc_api(op: str, *args, timeout=3, **kwargs):
@@ -57,7 +63,7 @@ async def rpc_api(op: str, *args, timeout=3, **kwargs):
 
     def handler(message: dict):
         data = message["data"]
-        aio.new_event_loop().run_until_complete(q.put(data))
+        aio.run_coroutine_threadsafe(q.put(data), bot.loop)
 
     uuid = str(uuid4())
     pubsub.subscribe(**{uuid: handler})
