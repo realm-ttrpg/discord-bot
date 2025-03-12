@@ -14,7 +14,6 @@ from aethersprite.filters import BooleanFilter
 from aethersprite.settings import register, settings
 
 # local
-from ..rpc import rpc_api
 from .response import compact, verbose
 from .parse import parse_segments
 from .roll import roll_segment
@@ -70,7 +69,6 @@ async def roll_command(ctx: Context, *, dice: str):
         return
 
     await ctx.message.delete()
-    await rpc_api("roll")
 
 
 async def setup(bot: Bot):
