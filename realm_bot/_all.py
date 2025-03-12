@@ -1,4 +1,4 @@
-"""Load all command extensions"""
+"""Realm bot metaextension for Aethersprite"""
 
 META_EXTENSION = True
 

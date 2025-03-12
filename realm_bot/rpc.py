@@ -1,3 +1,5 @@
+"""RPC functionality and Aethersprite extension"""
+
 # stdlib
 import asyncio as aio
 import json
