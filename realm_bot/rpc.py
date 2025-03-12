@@ -6,10 +6,12 @@ from uuid import uuid4
 
 # 3rd party
 from discord.ext.commands import Bot
+from pydantic import BaseModel
 import redis
 
 # api
 from aethersprite import log
+from realm_schema import BotGuildsResponse
 
 bot: Bot
 redis_conn = redis.StrictRedis(host=os.environ.get("REDIS_HOST", "localhost"))
@@ -26,19 +28,24 @@ class RPCHandlers:
     """
 
     @staticmethod
-    def guilds(data: dict):
+    def guilds(*_, **__):
         """Get list of guilds the bot is joined to."""
 
-        return [str(guild.id) for guild in bot.guilds]
+        return BotGuildsResponse(
+            guild_ids=set([str(guild.id) for guild in bot.guilds]),
+        )
 
 
 def handler(message: dict):
     """Handle an incoming RPC operation and publish the result."""
 
-    data = json.loads(message["data"])
+    data: dict = json.loads(message["data"])
     log.info(f"RPC op: {data['op']}")
-    result = getattr(RPCHandlers, data["op"])(data)
-    redis_conn.publish(data["uuid"], json.dumps(result))
+    result: BaseModel = getattr(RPCHandlers, data["op"])(
+        *data.get("args", []),
+        **data.get("kwargs", dict()),
+    )
+    redis_conn.publish(data["uuid"], result.model_dump_json())
 
 
 async def rpc_api(op: str, *args, timeout=3, **kwargs):
@@ -47,7 +54,7 @@ async def rpc_api(op: str, *args, timeout=3, **kwargs):
     q = aio.Queue()
 
     def handler(message: dict):
-        data = json.loads(message["data"])
+        data = message["data"]
         aio.new_event_loop().run_until_complete(q.put(data))
 
     uuid = str(uuid4())

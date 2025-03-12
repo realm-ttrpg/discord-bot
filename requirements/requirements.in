@@ -1,3 +1,4 @@
-aethersprite@git+https://github.com/haliphax/aethersprite.git
+aethersprite @ git+https://github.com/haliphax/aethersprite.git@main
 hiredis
+realm_schema @ git+https://github.com/realm-ttrpg/schema.git@main
 redis
