@@ -3,7 +3,10 @@
 		"charliermarsh.ruff",
 		"editorconfig.editorconfig",
 		"esbenp.prettier-vscode",
-		"ms-python.python",
-		"tamasfe.even-better-toml"
+		"tamasfe.even-better-toml",
+		"seatonjiang.gitmoji-vscode",
+		"ms-python.isort",
+		"redhat.vscode-yaml",
+		"zainchen.json"
 	]
 }
