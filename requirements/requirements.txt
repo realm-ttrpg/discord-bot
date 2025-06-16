@@ -48,7 +48,7 @@ frozenlist==1.4.1
     #   aethersprite
     #   aiohttp
     #   aiosignal
-h11==0.14.0
+h11==0.16.0
     # via
     #   aethersprite
     #   uvicorn
