@@ -9,14 +9,15 @@ from uuid import uuid4
 # 3rd party
 from discord.ext.commands import Bot
 from pydantic import BaseModel
-import redis
+from redis.asyncio import StrictRedis
 
 # api
 from aethersprite import log
 from realm_schema import BotGuildsResponse
 
 bot: Bot
-redis_conn = redis.StrictRedis(host=os.environ.get("REDIS_HOST", "localhost"))
+task: aio.Task
+redis_conn = StrictRedis(host=os.environ.get("REDIS_HOST", "localhost"))
 pubsub = redis_conn.pubsub(ignore_subscribe_messages=True)
 
 
@@ -49,9 +50,8 @@ def handler(message: dict):
             *data.get("args", []),
             **data.get("kwargs", dict()),
         )
-        redis_conn.publish(
-            data["uuid"], result.model_dump_json() if result else ""
-        )
+        response = result.model_dump_json()
+        await redis_conn.publish(data["uuid"], response if result else "")
 
     aio.run_coroutine_threadsafe(f(), bot.loop)
 
@@ -61,15 +61,15 @@ async def rpc_api(op: str, *args, timeout=3, **kwargs):
 
     q = aio.Queue()
 
-    def handler(message: dict):
+    async def handler(message: dict):
         data = message["data"]
-        aio.run_coroutine_threadsafe(q.put(data), bot.loop)
+        await q.put(data)
 
     uuid = str(uuid4())
-    pubsub.subscribe(**{uuid: handler})
+    await pubsub.subscribe(**{uuid: handler})
 
     try:
-        redis_conn.publish(
+        await redis_conn.publish(
             "rpc.api",
             json.dumps(
                 {
@@ -84,16 +84,17 @@ async def rpc_api(op: str, *args, timeout=3, **kwargs):
         return await aio.wait_for(q.get(), timeout)
 
     finally:
-        pubsub.unsubscribe(uuid)
+        await pubsub.unsubscribe(uuid)
 
 
 async def setup(bot_: Bot):
-    global bot
+    global bot, task
     bot = bot_
-    pubsub.subscribe(**{"rpc.bot": handler})
-    pubsub.run_in_thread(daemon=True, sleep_time=0.01)
+    await pubsub.subscribe(**{"rpc.bot": handler})
+    task = aio.create_task(pubsub.run())
 
 
 async def teardown(*_):
-    pubsub.unsubscribe()
-    pubsub.close()
+    await pubsub.unsubscribe()
+    await pubsub.close()
+    task.cancel()
