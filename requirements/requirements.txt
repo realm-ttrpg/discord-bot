@@ -10,7 +10,7 @@ aiohappyeyeballs==2.6.1
     # via
     #   aethersprite
     #   aiohttp
-aiohttp==3.12.14
+aiohttp==3.12.15
     # via
     #   aethersprite
     #   discord-py
@@ -18,118 +18,63 @@ aiosignal==1.4.0
     # via
     #   aethersprite
     #   aiohttp
-annotated-types==0.6.0
-    # via
-    #   aethersprite
-    #   pydantic
-anyio==4.3.0
-    # via
-    #   aethersprite
-    #   starlette
-    #   watchfiles
-attrs==23.2.0
+annotated-types==0.7.0
+    # via pydantic
+attrs==25.3.0
     # via
     #   aethersprite
     #   aiohttp
-click==8.1.7
-    # via
-    #   aethersprite
-    #   uvicorn
-colorlog==6.8.2
+colorlog==6.9.0
     # via aethersprite
 discord-pretty-help==2.0.7
     # via aethersprite
-discord-py==2.3.2
+discord-py==2.6.2
     # via aethersprite
-fastapi==0.110.0
-    # via aethersprite
-frozenlist==1.4.1
+frozenlist==1.7.0
     # via
     #   aethersprite
     #   aiohttp
     #   aiosignal
-h11==0.16.0
-    # via
-    #   aethersprite
-    #   uvicorn
-hiredis==3.1.0
+hiredis==3.2.1
     # via -r requirements.in
-httptools==0.6.1
+idna==3.10
     # via
     #   aethersprite
-    #   uvicorn
-idna==3.7
-    # via
-    #   aethersprite
-    #   anyio
     #   yarl
-multidict==6.0.5
+multidict==6.6.4
     # via
     #   aethersprite
     #   aiohttp
     #   yarl
-propcache==0.2.0
+propcache==0.3.2
     # via
     #   aethersprite
     #   aiohttp
     #   yarl
-pydantic==2.6.4
-    # via
-    #   aethersprite
-    #   fastapi
-    #   realm-schema
-pydantic-core==2.16.3
-    # via
-    #   aethersprite
-    #   pydantic
-python-dotenv==1.0.1
-    # via
-    #   aethersprite
-    #   uvicorn
-pytz==2024.1
+pydantic==2.11.7
+    # via realm-schema
+pydantic-core==2.33.2
+    # via pydantic
+pytz==2025.2
     # via aethersprite
-pyyaml==6.0.1
-    # via
-    #   aethersprite
-    #   uvicorn
 realm-schema @ git+https://github.com/realm-ttrpg/schema.git@main
     # via -r requirements.in
-redis==5.2.1
+redis==6.4.0
     # via -r requirements.in
-sniffio==1.3.1
-    # via
-    #   aethersprite
-    #   anyio
 sqlitedict==2.1.0
     # via aethersprite
-starlette==0.36.3
-    # via
-    #   aethersprite
-    #   fastapi
 toml==0.10.2
     # via aethersprite
-typing-extensions==4.10.0
+typing-extensions==4.15.0
     # via
     #   aethersprite
     #   aiosignal
-    #   fastapi
     #   pydantic
     #   pydantic-core
-uvicorn[standard]==0.29.0
-    # via aethersprite
-uvloop==0.19.0
-    # via
-    #   aethersprite
-    #   uvicorn
-watchfiles==0.21.0
-    # via
-    #   aethersprite
-    #   uvicorn
-websockets==12.0
-    # via
-    #   aethersprite
-    #   uvicorn
-yarl==1.17.2
+    #   typing-inspection
+typing-inspection==0.4.1
+    # via pydantic
+yarl==1.20.1
     # via
     #   aethersprite
     #   aiohttp
