@@ -5,8 +5,8 @@ from discord.colour import Color
 from discord.embeds import Embed
 from discord.ext.commands import Context
 
-# local
-from .dataclasses import ConstantModifier, DiceRoll, RollSegment, SegmentResult
+# api
+from realm_schema import ConstantModifier, DiceRoll, RollSegment, SegmentResult
 
 
 def segment_icon(segment: RollSegment):
@@ -37,7 +37,7 @@ def compact(ctx: Context, dice: str, results: list[SegmentResult]) -> str:
     return "".join(
         (
             f"{ctx.author.mention} ",
-            f"`{dice}` :game_die: *{rolls}* ",
+            f"`{dice}` ｜ :game_die: *{rolls}* ｜ ",
             f":checkered_flag: {totals} ",
             f"= **{sum(totals)}**",
         )

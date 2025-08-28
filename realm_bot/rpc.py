@@ -39,21 +39,17 @@ class RPCHandlers:
         )
 
 
-def handler(message: dict):
+async def handler(message: dict):
     """Handle an incoming RPC operation and publish the result."""
 
     data: dict = json.loads(message["data"])
     log.info(f"RPC op: {data['op']}")
-
-    async def f():
-        result: BaseModel = await getattr(RPCHandlers, data["op"])(
-            *data.get("args", []),
-            **data.get("kwargs", dict()),
-        )
-        response = result.model_dump_json()
-        await redis_conn.publish(data["uuid"], response if result else "")
-
-    aio.run_coroutine_threadsafe(f(), bot.loop)
+    result: BaseModel = await getattr(RPCHandlers, data["op"])(
+        *data.get("args", []),
+        **data.get("kwargs", dict()),
+    )
+    response = result.model_dump_json()
+    await redis_conn.publish(data["uuid"], response if result else "")
 
 
 async def rpc_api(op: str, *args, timeout=3, **kwargs):
@@ -67,20 +63,15 @@ async def rpc_api(op: str, *args, timeout=3, **kwargs):
 
     uuid = str(uuid4())
     await pubsub.subscribe(**{uuid: handler})
+    message = {
+        "uuid": uuid,
+        "op": op,
+        "args": args,
+        "kwargs": kwargs,
+    }
 
     try:
-        await redis_conn.publish(
-            "rpc.api",
-            json.dumps(
-                {
-                    "uuid": uuid,
-                    "op": op,
-                    "args": args,
-                    "kwargs": kwargs,
-                }
-            ),
-        )
-
+        await redis_conn.publish("rpc.api", json.dumps(message))
         return await aio.wait_for(q.get(), timeout)
 
     finally:

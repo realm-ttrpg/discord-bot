@@ -7,16 +7,15 @@ from random import seed
 from discord.ext.commands import Bot, check, command, Context
 
 # api
-from aethersprite import log
 from aethersprite.authz import channel_only
 from aethersprite.emotes import THUMBS_DOWN
 from aethersprite.filters import BooleanFilter
 from aethersprite.settings import register, settings
+from realm_schema import RollResults
 
 # local
+from ..rpc import rpc_api
 from .response import compact, verbose
-from .parse import parse_segments
-from .roll import roll_segment
 
 ROLL_COMPACT_SETTING = "realm.roll.compact"
 """Setting name for compact roll results toggle"""
@@ -54,17 +53,22 @@ async def roll_command(ctx: Context, *, dice: str):
     is_compact = settings[ROLL_COMPACT_SETTING].get(ctx)
 
     try:
-        batches = parse_segments(dice)
+        results: list[RollResults] = await rpc_api("roll", dice)
 
-        for segments in batches:
-            results = [roll_segment(s) for s in segments]
+        if not len(results):
+            raise Exception("Error parsing dice roll")
 
+        for result in results:
             if is_compact:
-                await ctx.send(compact(ctx, dice, results))
+                await ctx.send(
+                    compact(ctx, dice, result.results)  # type: ignore
+                )
             else:
-                await ctx.send(embed=verbose(ctx, dice, results))
+                await ctx.send(
+                    embed=verbose(ctx, dice, result.results)  # type: ignore
+                )
+
     except Exception:
-        log.exception("Error parsing dice roll")
         await ctx.message.add_reaction(THUMBS_DOWN)
         return
 
