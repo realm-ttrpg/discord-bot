@@ -43,13 +43,13 @@ async def handler(message: dict):
     """Handle an incoming RPC operation and publish the result."""
 
     data: dict = json.loads(message["data"])
-    log.info(f"RPC op: {data['op']}")
+    log.info(f"Incoming RPC op: {data['uuid']} {data['op']}")
     result: BaseModel = await getattr(RPCHandlers, data["op"])(
         *data.get("args", []),
         **data.get("kwargs", dict()),
     )
     response = result.model_dump_json()
-    await redis_conn.publish(data["uuid"], response if result else "")
+    await redis_conn.publish(data["uuid"], response)
 
 
 async def rpc_api(op: str, *args, timeout=3, **kwargs):
@@ -69,6 +69,7 @@ async def rpc_api(op: str, *args, timeout=3, **kwargs):
         "args": args,
         "kwargs": kwargs,
     }
+    log.info(f"Outgoing RPC op: {message['uuid']} {message['op']}")
 
     try:
         await redis_conn.publish("rpc.api", json.dumps(message))
