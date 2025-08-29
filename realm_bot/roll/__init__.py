@@ -9,14 +9,14 @@ from discord.ext.commands import Bot, check, command, Context
 # api
 from aethersprite import log
 from aethersprite.authz import channel_only
-from aethersprite.emotes import THUMBS_DOWN
+from aethersprite.emotes import THUMBS_DOWN, WARNING
 from aethersprite.filters import BooleanFilter
 from aethersprite.settings import register, settings
+from realm_schema import BatchResults
 
 # local
+from ..rpc import rpc_api
 from .response import compact, verbose
-from .parse import parse_segments
-from .roll import roll_segment
 
 ROLL_COMPACT_SETTING = "realm.roll.compact"
 """Setting name for compact roll results toggle"""
@@ -54,18 +54,26 @@ async def roll_command(ctx: Context, *, dice: str):
     is_compact = settings[ROLL_COMPACT_SETTING].get(ctx)
 
     try:
-        batches = parse_segments(dice)
+        batch = BatchResults.model_validate_json(await rpc_api("roll", dice))
 
-        for segments in batches:
-            results = [roll_segment(s) for s in segments]
+        if not len(batch.results):
+            log.warning("Error parsing dice roll")
+            await ctx.message.add_reaction(THUMBS_DOWN)
+            return
 
+        for roll in batch.results:
             if is_compact:
-                await ctx.send(compact(ctx, dice, results))
+                await ctx.send(
+                    compact(ctx, dice, roll.results)  # type: ignore
+                )
             else:
-                await ctx.send(embed=verbose(ctx, dice, results))
-    except Exception:
-        log.exception("Error parsing dice roll")
-        await ctx.message.add_reaction(THUMBS_DOWN)
+                await ctx.send(
+                    embed=verbose(ctx, dice, roll.results)  # type: ignore
+                )
+
+    except Exception as ex:
+        log.exception(ex)
+        await ctx.message.add_reaction(WARNING)
         return
 
     await ctx.message.delete()
