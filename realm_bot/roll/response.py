@@ -6,17 +6,16 @@ from discord.embeds import Embed
 from discord.ext.commands import Context
 
 # api
-from realm_schema import ConstantModifier, DiceRoll, RollSegment, SegmentResult
+from realm_schema import SegmentResult
 
 
-def segment_icon(segment: RollSegment):
+def segment_icon(segment: SegmentResult):
     """Get emote icon for displaying segment result in an Embed."""
 
-    if isinstance(segment, DiceRoll):
+    if segment.work:
         return ":game_die:"
 
-    if isinstance(segment, ConstantModifier):
-        return ":1234:"
+    return ":1234:"
 
 
 def compact(ctx: Context, dice: str, results: list[SegmentResult]) -> str:
@@ -67,8 +66,8 @@ def verbose(ctx: Context, dice: str, results: list[SegmentResult]) -> Embed:
 
     for result in results:
         embed.add_field(
-            name=f"{segment_icon(result.segment)} {result.segment.raw}",
-            value=result.work if isinstance(result.segment, DiceRoll) else "",
+            name=f"{segment_icon(result)} {result.segment.raw}",
+            value=result.work if result.work else "",
         )
 
     totals = [s.total for s in results]

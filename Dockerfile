@@ -19,7 +19,7 @@ COPY realm_bot /app/realm_bot
 
 RUN <<-EOF
 	mkdir -p /app/data
-	pip install --no-cache -Ue .
+	pip install --no-cache --no-warn-script-location -Ue .
 EOF
 
 ENTRYPOINT [ "/usr/local/bin/python", "-m", "aethersprite" ]
