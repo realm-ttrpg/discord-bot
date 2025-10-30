@@ -63,13 +63,9 @@ async def roll_command(ctx: Context, *, dice: str):
 
         for roll in batch.results:
             if is_compact:
-                await ctx.send(
-                    compact(ctx, dice, roll.results)  # type: ignore
-                )
+                await ctx.send(compact(ctx, dice, roll))
             else:
-                await ctx.send(
-                    embed=verbose(ctx, dice, roll.results)  # type: ignore
-                )
+                await ctx.send(embed=verbose(ctx, dice, roll))
 
     except Exception as ex:
         log.exception(ex)
